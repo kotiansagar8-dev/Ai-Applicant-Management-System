@@ -1,0 +1,8 @@
+Flask
+Flask-MySQLdb
+python-dotenv
+scikit-learn==1.4.2
+numpy==1.26.4
+pandas
+PyPDF2
+joblib

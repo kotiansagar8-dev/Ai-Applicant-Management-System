@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="global_candidates_header">
+    <h2>Selected Candidates</h2>
+    <p>Candidates who have successfully cleared the evaluation process</p>
+</div>
+{% if candidates %}
+
+<form method="POST" action="/bulk_update_status">
+    <input type="hidden" name="redirect_to" value="selected">
+
+    <div style="margin-bottom: 12px;">
+        
+    </div>
+
+    <div class="table-container">
+        <table class="candidate_table">
+
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Education</th>
+                <th>Experience</th>
+                <th>Company</th>
+                <th>Designation</th>
+                <th>Location</th>
+            </tr>
+
+            {% for candidate in candidates %}
+            <tr>
+                <td>{{ candidate.candidate_name }}</td>
+                <td class="email-cell">{{ candidate.email }}</td>
+                <td>{{ candidate.phone_number }}</td>
+                <td>{{ candidate.education }}</td>
+                <td>{{ candidate.experience }}</td>
+                <td>{{ candidate.current_company }}</td>
+                <td>{{ candidate.current_designation }}</td>
+                <td>{{ candidate.current_location }}</td>
+
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+</form>
+
+{% else %}
+<div class="empty_state">
+    <h3>No Rejected Candidates</h3>
+    <p>Selected profiles will be listed here for record keeping and review.</p>
+</div>
+{% endif %}
+
+{% endblock %}

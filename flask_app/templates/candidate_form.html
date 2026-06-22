@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="candidate_form_page">
+
+    <!-- PAGE HEADER -->
+    <div class="candidate_page_header">
+
+        <div>
+            <h2>Add Candidate Details</h2>
+            <p>Register a new candidate from the selected resume.</p>
+        </div>
+
+        <div class="form_back_button">
+            <button type="button" onclick="history.back()">
+                ← Back
+            </button>
+        </div>
+
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="candidate_card">
+
+        <!-- CARD HEADER -->
+        <div class="candidate_card_header">
+            <h3>Candidate Registration</h3>
+        </div>
+
+        <!-- CARD BODY -->
+        <div class="candidate_card_body">
+
+            <!-- RESUME SECTION -->
+            <div class="resume_section">
+
+                <label>SELECTED RESUME</label>
+
+                <div class="resume_box">
+
+                    <span>{{ resume }}</span>
+
+                    <a
+                        href="{{ url_for('uploaded_file', filename=resume) }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="resume-btn"
+                    >
+                        Open Resume
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- FORM -->
+            <form action="/candidates/save" method="POST">
+
+                <input type="hidden" name="resume" value="{{ resume }}">
+
+                <div class="form_grid">
+
+                    <div class="input-group">
+                        <label for="candidate_name">Full Name</label>
+                        <input id="candidate_name"
+                               type="text"
+                               name="candidate_name"
+                               required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="email">Email Address</label>
+                        <input id="email"
+                               type="email"
+                               name="email">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="phone_number">Phone Number</label>
+                        <input id="phone_number"
+                               type="text"
+                               name="phone_number">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="education">Education</label>
+                        <input id="education"
+                               type="text"
+                               name="education">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="experience">Experience</label>
+                        <input id="experience"
+                               type="text"
+                               name="experience">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="current_company">Current Company</label>
+                        <input id="current_company"
+                               type="text"
+                               name="current_company">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="current_designation">Current Designation</label>
+                        <input id="current_designation"
+                               type="text"
+                               name="current_designation">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="current_location">Current Location</label>
+                        <input id="current_location"
+                               type="text"
+                               name="current_location">
+                    </div>
+
+                </div>
+
+                <!-- SUBMIT -->
+                <div class="submit_section">
+                    <button type="submit" class="save_candidate_btn">
+                        Save Candidate
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

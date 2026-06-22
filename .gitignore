@@ -1,0 +1,43 @@
+# Virtual Environment
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Environment Variables
+.env
+
+# Uploaded Resumes
+Uploads/resumes/
+Uploads/downloads/
+Uploads/archived_resumes/
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Database Files
+*.db
+
+# Temporary Files
+temp/
+tmp/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Flask Cache
+instance/
+
+
+# PDF Cache / Hash Files
+*.hash
+Classifier/downloaded_hashes.pkl

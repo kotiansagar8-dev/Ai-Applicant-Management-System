@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard_page">
+
+    <!-- HEADER -->
+    <div class="dashboard_header">
+
+        <div>
+            <h1>Welcome, {{ user }}</h1>
+            <p>Here’s an overview of your recruitment pipeline</p>
+        </div>
+
+    </div>
+
+    <!-- STATS CARDS -->
+    <div class="stats_grid">
+
+        <div class="stat_card">
+            <h3>Total Candidates</h3>
+            <p>{{ total_candidates }}</p>
+        </div>
+
+        <div class="stat_card">
+            <h3>Saved</h3>
+            <p>{{ saved_count }}</p>
+        </div>
+
+        <div class="stat_card">
+            <h3>Interview Scheduled</h3>
+            <p>{{ scheduled_count }}</p>
+        </div>
+
+        <div class="stat_card">
+            <h3>On Hold</h3>
+            <p>{{ onhold_count }}</p>
+        </div>
+
+        <div class="stat_card">
+            <h3>Selected</h3>
+            <p>{{ selected_count }}</p>
+        </div>
+
+        <div class="stat_card">
+            <h3>Rejected</h3>
+            <p>{{ rejected_count }}</p>
+        </div>
+
+    </div>
+
+    <!-- SYSTEM INFO -->
+    <div class="system_info">
+
+        <h2>System Overview</h2>
+
+        <p>
+            This Resume Management System automatically classifies resumes,
+            stores candidate data, and helps HR manage recruitment stages
+            from initial screening to final selection.
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

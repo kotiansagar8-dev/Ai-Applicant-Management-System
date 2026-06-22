@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="saved_page">
+
+    <!-- PAGE HEADER -->
+    <div class="page_header">
+
+        <h2>Classified Resumes</h2>
+
+        <p>
+            Select a resume to continue
+            <span class="resume_count">
+                ({{ resume_count }} unprocessed)
+            </span>
+        </p>
+
+        <!-- INFO MESSAGE -->
+        <div class="resume_info_message">
+            All resumes fetched and classified from your email
+            will be displayed here.
+        </div>
+
+        <!-- FLASH MESSAGE -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="flash_message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+        <!-- FETCH BUTTON SECTION -->
+        <div class="classifier_section">
+
+            <form method="POST"
+                action="{{ url_for('candidate.fetch_resumes') }}"
+                id="fetchForm">
+
+                <button type="submit"
+                        class="fetch_btn"
+                        id="fetchBtn">
+
+                    🔄 Fetch New Resumes
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- RESUME LIST -->
+    <div class="resume_list">
+
+        {% if resumes and resumes|length > 0 %}
+
+            <ul>
+
+                {% for file in resumes %}
+
+                    <li>
+
+                        <a href="/candidates/add/{{ file }}">
+
+                            <span class="file_icon">📄</span>
+
+                            <span class="file_name">
+                                {{ file }}
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        {% else %}
+
+            <div class="empty_state">
+
+                <h3>No New Resumes</h3>
+
+                <p>
+                    No new resumes available right now.
+                    Click on “Fetch New Resumes” to retrieve newly received resumes.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("fetchForm")
+.addEventListener("submit", function () {
+
+    const btn = document.getElementById("fetchBtn");
+
+    btn.disabled = true;
+
+    btn.innerText = "⏳ Fetching resumes...";
+
+});
+
+</script>
+
+{% endblock %}

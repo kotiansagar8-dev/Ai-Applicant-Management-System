@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Resume Management System</title>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- ================= SIDEBAR ================= -->
+    <div class="sidebar">
+
+        <!-- HEADER -->
+        <div class="sidebar-header">
+            <h2>ATS System</h2>
+            <p class="subtitle">Candidate Management</p>
+        </div>
+
+        <!-- USER INFO -->
+        <div class="user-box">
+            👤 Logged in as: <b>{{ session["user"] }}</b>
+            
+        </div>
+
+        
+
+        <!-- NAVIGATION -->
+        <div class="nav-section">
+
+            <a href="/dashboard"
+            class="{% if request.path == '/dashboard' %}active{% endif %}">
+                🏠 Dashboard
+            </a>
+
+            <a href="/candidates/add"
+            class="{% if request.path.startswith('/candidates/add') %}active{% endif %}">
+                ➕ Add New Candidate
+            </a>
+
+            <a href="/candidates"
+            class="{% if request.path == '/candidates' %}active{% endif %}">
+                📋 Saved Candidates
+            </a>
+
+            <a href="/scheduled"
+            class="{% if request.path == '/scheduled' %}active{% endif %}">
+                📅 Scheduled Interviews
+            </a>
+
+            <a href="/on-hold"
+            class="{% if request.path == '/on-hold' %}active{% endif %}">
+                ⏸ On Hold Candidates
+            </a>
+
+            <a href="/selected"
+            class="{% if request.path == '/selected' %}active{% endif %}">
+                ✅ Selected Candidates
+            </a>
+
+            <a href="/rejected"
+            class="{% if request.path == '/rejected' %}active{% endif %}">
+                ❌ Rejected Candidates
+            </a>
+
+        </div>
+
+        
+
+        <!-- SYSTEM ACTIONS -->
+        <!-- <div class="nav-section">
+            <a href="/run_classifier">🤖 Run Classifier</a>
+        </div> -->
+
+        <!-- LOGOUT -->
+        <div class="logout-section">
+            <a href="/logout">🚪 Logout</a>
+        </div>
+
+    </div>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <div class="main-content">
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

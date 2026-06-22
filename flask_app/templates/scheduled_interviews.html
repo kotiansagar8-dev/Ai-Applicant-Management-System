@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="global_candidate_header">
+    <h2>Interview Scheduled</h2>
+    <p>Candidates grouped according to interview dates and updated to Selected, On Hold, or Rejected after evaluation</p>
+</div>
+
+{% if grouped_candidates %}
+
+<form method="POST" action="/bulk_update_status">
+
+    <input type="hidden" name="redirect_to" value="scheduled">
+
+    <div style="margin-bottom: 12px;">
+        <button type="submit" class="update-btn">
+            Update All Changes
+        </button>
+    </div>
+
+    {% for interview_date, candidates in grouped_candidates.items() %}
+
+        <!-- DATE SECTION -->
+        <div class="interview_date_section">
+
+            <div class="interview_date_header">
+                📅 {{ interview_date }}
+            </div>
+
+            <div class="table-container">
+
+                <table class="candidate_table">
+
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Education</th>
+                        <th>Experience</th>
+                        <th>Company</th>
+                        <th>Designation</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th>Resume</th>
+                    </tr>
+
+                    {% for candidate in candidates %}
+
+                    <tr>
+
+                        <td>{{ candidate.candidate_name }}</td>
+
+                        <td class="email-cell">
+                            {{ candidate.email }}
+                        </td>
+
+                        <td>{{ candidate.phone_number }}</td>
+
+                        <td>{{ candidate.education }}</td>
+
+                        <td>{{ candidate.experience }}</td>
+
+                        <td>{{ candidate.current_company }}</td>
+
+                        <td>{{ candidate.current_designation }}</td>
+
+                        <td>{{ candidate.current_location }}</td>
+
+                        <td>
+
+                            <select name="status_{{ candidate.candidate_id }}">
+
+                                <option value="INTERVIEW_SCHEDULED"
+                                    {% if candidate.status == 'INTERVIEW_SCHEDULED' %}
+                                        selected
+                                    {% endif %}>
+                                    Scheduled
+                                </option>
+
+                                <option value="ON_HOLD"
+                                    {% if candidate.status == 'ON_HOLD' %}
+                                        selected
+                                    {% endif %}>
+                                    On Hold
+                                </option>
+
+                                <option value="SELECTED"
+                                    {% if candidate.status == 'SELECTED' %}
+                                        selected
+                                    {% endif %}>
+                                    Select
+                                </option>
+
+                                <option value="REJECTED"
+                                    {% if candidate.status == 'REJECTED' %}
+                                        selected
+                                    {% endif %}>
+                                    Reject
+                                </option>
+
+                            </select>
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ url_for('uploaded_file', filename=candidate.resume_path) }}"
+                               target="_blank"
+                               class="resume-btn">
+
+                                Open
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </table>
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+</form>
+
+{% else %}
+
+<div class="empty_state">
+
+    <h3>No Scheduled Interviews</h3>
+
+    <p>
+        Move candidates to this stage when an interview has been scheduled.
+    </p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

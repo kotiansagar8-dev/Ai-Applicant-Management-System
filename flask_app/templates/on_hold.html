@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="global_candidate_header">
+    <h2>On Hold Candidates</h2>
+    <p>Candidates temporarily paused for later evaluation</p>
+</div>
+{% if candidates %}
+
+<form method="POST" action="/bulk_update_status">
+
+    <input type="hidden" name="redirect_to" value="on_hold">
+
+    <div style="margin-bottom: 12px;">
+        <button type="submit" class="update-btn">
+            Update All Changes
+        </button>
+    </div>
+
+    <div class="table-container">
+        <table class="candidate_table">
+
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Education</th>
+                <th>Experience</th>
+                <th>Company</th>
+                <th>Designation</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Resume</th>
+            </tr>
+
+            {% for candidate in candidates %}
+            <tr>
+                <td>{{ candidate.candidate_name }}</td>
+                <td class="email-cell">{{ candidate.email }}</td>
+                <td>{{ candidate.phone_number }}</td>
+                <td>{{ candidate.education }}</td>
+                <td>{{ candidate.experience }}</td>
+                <td>{{ candidate.current_company }}</td>
+                <td>{{ candidate.current_designation }}</td>
+                <td>{{ candidate.current_location }}</td>
+
+               <td>
+
+                    <div class="status_section">
+
+                        <select
+                            name="status_{{ candidate.candidate_id }}"
+                            class="status_dropdown"
+                            onchange="toggleDateInput(this, '{{ candidate.candidate_id }}')"
+                        >
+
+                            <option value="ON_HOLD"
+                                {% if candidate.status == 'ON_HOLD' %}selected{% endif %}>
+                                On Hold
+                            </option>
+
+                            <option value="INTERVIEW_SCHEDULED"
+                                {% if candidate.status == 'INTERVIEW_SCHEDULED' %}selected{% endif %}>
+                                Reschedule Interview
+                            </option>
+
+                            <option value="REJECTED"
+                                {% if candidate.status == 'REJECTED' %}selected{% endif %}>
+                                Reject
+                            </option>
+
+                            <option value="SELECTED"
+                                {% if candidate.status == 'SELECTED' %}selected{% endif %}>
+                                Select
+                            </option>
+
+                        </select>
+
+                        <!-- DATE BOX -->
+                        <div
+                            id="date_box_{{ candidate.candidate_id }}"
+                            class="date_box"
+                            {% if candidate.status == "INTERVIEW_SCHEDULED" %}
+                                style="display: block;"
+                            {% else %}
+                                style="display: none;"
+                            {% endif %}
+                        >
+
+                            <input
+                                type="date"
+                                name="interview_date_{{ candidate.candidate_id }}"
+                                class="interview_date_input"
+                                value="{{ candidate.interview_date }}"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </td>
+                <td>
+                    <a href="{{ url_for('uploaded_file', filename=candidate.resume_path) }}"
+                    target="_blank"
+                    class="resume-btn">
+                        Open
+                    </a>
+                </td>
+
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+</form>
+
+{% else %}
+<div class="empty_state">
+    <h3>No Candidates On Hold</h3>
+    <p>Use this stage to pause candidates who need future review.</p>
+</div>
+{% endif %}
+<script>
+
+function toggleDateInput(selectElement, candidateId) {
+
+    const dateBox = document.getElementById(
+        `date_box_${candidateId}`
+    );
+
+    if (selectElement.value === "INTERVIEW_SCHEDULED") {
+
+        dateBox.style.display = "block";
+
+    } else {
+
+        dateBox.style.display = "none";
+
+    }
+}
+
+</script>
+{% endblock %}
