@@ -69,7 +69,9 @@
 
                         <td>
 
-                            <select name="status_{{ candidate.candidate_id }}">
+                            <select name="status_{{ candidate.candidate_id }}" 
+                            class="status_dropdown"
+                            onchange="toggleDateInput(this, '{{ candidate.candidate_id }}')">
 
                                 <option value="INTERVIEW_SCHEDULED"
                                     {% if candidate.status == 'INTERVIEW_SCHEDULED' %}
