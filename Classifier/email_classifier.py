@@ -45,7 +45,6 @@ VECTORIZER_PATH = os.path.join(CLASSIFIER_DIR, "resume_vectorizer.pkl")
 
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESUME_FOLDER, exist_ok=True)
-print("Classifier Running")
 
 # ================================
 # EMAIL CONFIG
