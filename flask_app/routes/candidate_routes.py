@@ -412,3 +412,13 @@ def bulk_update_status():
         return redirect("/on-hold")
 
     return redirect("/candidates")
+
+# =========================================================
+# LOGOUT
+# =========================================================
+@candidate.route("/logout")
+def logout():
+
+    session.pop("user", None)
+
+    return redirect("/")
