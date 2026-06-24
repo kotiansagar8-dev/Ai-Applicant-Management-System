@@ -200,11 +200,34 @@ def show_scheduled_candidates():
     """
 
     cursor.execute(query)
-
     candidates = cursor.fetchall()
 
     cursor.close()
     conn.close()
+
+    # ============================
+    # GROUP BY NORMALIZED DATE
+    # ============================
+    grouped_candidates = {}
+
+    for candidate in candidates:
+
+        raw_date = candidate["interview_date"]
+
+        if raw_date is None:
+            interview_date = "No Date Assigned"
+        else:
+            interview_date = raw_date.strftime("%Y-%m-%d") if hasattr(raw_date, "strftime") else str(raw_date)
+
+        if interview_date not in grouped_candidates:
+            grouped_candidates[interview_date] = []
+
+        grouped_candidates[interview_date].append(candidate)
+
+    return render_template(
+        "scheduled_interviews.html",
+        grouped_candidates=grouped_candidates
+    )
 
     # =====================================================
     # GROUP CANDIDATES BY INTERVIEW DATE
@@ -341,15 +364,9 @@ def bulk_update_status():
 
         for key, value in request.form.items():
 
-            # Skip Redirect Field
-            if key == "redirect_to":
-                continue
-
-            # Ignore Non-Status Fields
             if not key.startswith("status_"):
                 continue
 
-            # Extract Candidate ID
             candidate_id_str = key.replace("status_", "")
 
             if not candidate_id_str.isdigit():
@@ -357,25 +374,26 @@ def bulk_update_status():
 
             candidate_id = int(candidate_id_str)
 
-            # Update Candidate Status
-            # Interview Date
-            # Get Interview Date
-            interview_date = request.form.get(
-                f"interview_date_{candidate_id}"
-            )
+            # Get interview date (if exists in form)
+            interview_date = request.form.get(f"interview_date_{candidate_id}")
 
-            # Update Candidate Status + Interview Date
-            cursor.execute("""
-                UPDATE candidates
-                SET
-                    status = %s,
-                    interview_date = %s
-                WHERE candidate_id = %s
-            """, (
-                value,
-                interview_date if interview_date else None,
-                candidate_id
-            ))
+            # If scheduling interview → store date
+            if value == "INTERVIEW_SCHEDULED" and interview_date:
+
+                cursor.execute("""
+                    UPDATE candidates
+                    SET status = %s,
+                        interview_date = %s
+                    WHERE candidate_id = %s
+                """, (value, interview_date, candidate_id))
+
+            else:
+
+                cursor.execute("""
+                    UPDATE candidates
+                    SET status = %s
+                    WHERE candidate_id = %s
+                """, (value, candidate_id))
 
         conn.commit()
 
@@ -383,7 +401,7 @@ def bulk_update_status():
         cursor.close()
         conn.close()
 
-    # Redirect to Correct Page
+    # Redirect logic (cleaned)
     if redirect_page == "scheduled":
         return redirect("/scheduled")
 
@@ -394,14 +412,3 @@ def bulk_update_status():
         return redirect("/on-hold")
 
     return redirect("/candidates")
-
-
-# =========================================================
-# LOGOUT
-# =========================================================
-@candidate.route("/logout")
-def logout():
-
-    session.pop("user", None)
-
-    return redirect("/")
