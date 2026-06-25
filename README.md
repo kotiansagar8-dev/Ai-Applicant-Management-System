@@ -100,10 +100,17 @@ AI-Applicant-Management-System/
 
 # Tech Stack
 
+## Frontend
+
+* HTML
+* CSS
+* JavaScript
+* Jinja2 Templates
+
 ## Backend
 
-* Flask
 * Python
+* Flask
 
 ## Database
 
@@ -114,14 +121,18 @@ AI-Applicant-Management-System/
 * Scikit-learn
 * NumPy
 * Pandas
+* TF-IDF Vectorization
+* Logistic Regression
 
-## Frontend
+## Email & File Processing
 
-* HTML
-* CSS
-* Jinja2 Templates
+* IMAP
+* PDFMiner
+* python-docx
+* Pickle
 
 ---
+
 
 # Installation Guide
 
