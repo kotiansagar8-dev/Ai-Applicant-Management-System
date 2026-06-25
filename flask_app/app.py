@@ -1,11 +1,14 @@
 import os
 from flask import Flask
+from dotenv import load_dotenv
 from flask_app.routes.auth_routes import auth
 from flask_app.routes.dashboard_routes import dashboard
 from flask_app.routes.candidate_routes import candidate
 from flask import send_from_directory, abort
 app = Flask(__name__)
-app.secret_key = "resume_system_secret"
+
+load_dotenv()
+app.secret_key = os.getenv("SECRET_KEY")
 
 app.register_blueprint(auth)
 app.register_blueprint(dashboard)

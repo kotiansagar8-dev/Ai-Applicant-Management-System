@@ -212,10 +212,10 @@ SECRET_KEY=your_secret_key
 MYSQL_HOST=localhost
 MYSQL_USER=root
 MYSQL_PASSWORD=your_mysql_password
-MYSQL_DB=resume_management
+MYSQL_DB=resume_management_system
 
 EMAIL_USER=your_email@gmail.com
-EMAIL_PASSWORD=your_gmail_app_password
+EMAIL_PASS=your_gmail_app_password
 ```
 
 ---
@@ -256,10 +256,10 @@ SECRET_KEY=your_secret_key
 MYSQL_HOST=localhost
 MYSQL_USER=root
 MYSQL_PASSWORD=your_mysql_password
-MYSQL_DB=resume_management
+MYSQL_DB=resume_management_system
 
 EMAIL_USER=your_email@gmail.com
-EMAIL_PASSWORD=your_gmail_app_password
+EMAIL_PASS=your_gmail_app_password
 ```
 
 ---
@@ -326,7 +326,7 @@ abcd efgh ijkl mnop
 Use the generated password inside:
 
 ```env
-EMAIL_PASSWORD=your_generated_app_password
+EMAIL_PASS=your_generated_app_password
 ```
 
 Do NOT use your actual Gmail account password.
